@@ -61,24 +61,30 @@ function pointer.new(parent,x,y,w,ctx,cbg,btx)
 				end
 			end
 		elseif key == "return" then
-			bu.callback(bu.t)
+            if screen.hasFocus(parent.UID) and bu.focus then
+                bu.callback(bu.t)
+            end
         elseif key == "right" then
-            if bu.tpos < #bu.t then
-                bu.tpos = bu.tpos+1
-                if bu.fon:getWidth(bu.t:sub(1,bu.tpos))+bu.x+bu.poff >= bu.x+bu.w-5 then
-                    bu.poff = bu.w-bu.fon:getWidth(bu.t:sub(1,bu.tpos))-5
+            if screen.hasFocus(parent.UID) and bu.focus then
+                if bu.tpos < #bu.t then
+                    bu.tpos = bu.tpos+1
+                    if bu.fon:getWidth(bu.t:sub(1,bu.tpos))+bu.x+bu.poff >= bu.x+bu.w-5 then
+                        bu.poff = bu.w-bu.fon:getWidth(bu.t:sub(1,bu.tpos))-5
+                    end
+                    bu.tick = true
+                    timer = 0
                 end
-                bu.tick = true
-                timer = 0
             end
         elseif key == "left" then
-            if bu.tpos > 0 then
-                bu.tpos = bu.tpos-1
-                if bu.fon:getWidth(bu.t:sub(1,bu.tpos))+bu.x+bu.poff < bu.x then
-                    bu.poff = -bu.fon:getWidth(bu.t:sub(1,bu.tpos))
+            if screen.hasFocus(parent.UID) and bu.focus then
+                if bu.tpos > 0 then
+                    bu.tpos = bu.tpos-1
+                    if bu.fon:getWidth(bu.t:sub(1,bu.tpos))+bu.x+bu.poff < bu.x then
+                        bu.poff = -bu.fon:getWidth(bu.t:sub(1,bu.tpos))
+                    end
+                    bu.tick = true
+                    timer = 0
                 end
-                bu.tick = true
-                timer = 0
             end
 		end
 	end,parent.UID)

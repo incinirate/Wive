@@ -71,20 +71,22 @@ log("  ---==[ SYSTEM INITIALIZATION ]==--","SYSTEM")
 --Main variables
 local placeholder = "Iamaplaceholder"
 
+local backgroundUID = getUID()
+
 local backgroundID = screen.addElement({
 	getName = function() return "bgsetter" end,
 	isVisible = function() return true end,
 	draw = function() love.graphics.setBackgroundColor(7, 6, 87, 255) end,
-},-1073)
+},backgroundUID)
 
 events.registerListener("mousepressed",function(x,y,b)
-    screen.focusOn(backgroundID)
+    --screen.focusOn(backgroundID)
     log("GOT AN EVENT")
-	if b==2 and screen.hasFocus(-1073) then
+	if b==2 then
 		--dofile("progs/run.lua")
 		love.filesystem.load("progs/run.lua")()
 	end
-end,-1073)
+end,backgroundUID)
 
 love.window.setTitle("Window Environment")
 love.window.setMode(1280,720,{resizable=true,vsync=false})

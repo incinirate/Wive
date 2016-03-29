@@ -133,7 +133,7 @@ do
 
 	events.registerListener("keypressed",function(key)
 		if screen.hasFocus(win.UID) then
-			if key == " " then
+			if key == "space" then
 				running = not running
 			elseif key == "right" then
 			--	if speed == 10 then speed = 20

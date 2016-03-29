@@ -12,37 +12,37 @@ _G.events = {}
 
 local listeners = { lone = {} }
 
---[[
-{
-	UID = {
-		keypressed = {
-			1 = callback = function,
-			2 = callback = function,
-		}
-	},
-	-1073(lone) = {
-		...
-	}
-}
-]]
+function deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deepcopy(orig_key)] = deepcopy(orig_value)
+        end
+        setmetatable(copy, deepcopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
 
 for k,v in pairs(hooks) do
+
 	love[k] = function(...)
+        
 		local BREAKOUT = false
 		local args = {...}
 		local argct = #args
-		for kk,vv in ipairs(screen.getFocusList()) do
+		for kk,vv in ipairs(deepcopy(screen.getFocusList())) do
 			if listeners[vv[2]] then
 				if listeners[vv[2]][k] then
 					for kkk,vvv in pairs(listeners[vv[2]][k]) do
 						if type(vvv) == "function" then
 							local cap = {false,"whyamihere"}
-                            --log("What is cap: "..tostring(cap))
-                            if k=="mousepressed" then
-                            log("YO ["..k.."] : "..args[3])
-                                end
+                            
 							args[argct+1]=cap
-                            --log("What is it rly tho: "..tostring(args[argct+1]))
+                            
 							vvv(unpack(args))
                             
 							if cap[1] then
@@ -56,17 +56,7 @@ for k,v in pairs(hooks) do
 				break
 			end
 		end
-
-		--[[if listeners[-1073][k] then
-			for kk,vv in pairs(listeners[-1073][k]) do
-				if type(vv) == "function" then
-					vv(unpack(args))
-				end
-			end
-		end]]
 	end
-
-	--listeners[-1073] = {}
 end
 
 function events.registerListener(sEvent, fCallback, nUID, bLonerCatch)

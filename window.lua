@@ -2,8 +2,6 @@
 
 _G.window = {}
 
-local recap = 0
-
 function window:new(sName,nWidth,nHeight)
 	nWidth,nHeight = nWidth or 320,nHeight or 180
 	local w = {callbacks={},visible=false,width=nWidth,height=nHeight,x=0,y=0,mino=false,maxo=false,cloo=false,resizeable=true,bg={0,0,0,255}}
@@ -19,10 +17,6 @@ function window:new(sName,nWidth,nHeight)
 	do
 		--Do all window stuffs :P
 --		print("MAKING A WINDOW! :D")
-		recap = recap + 1
-		if recap == 100 then
-			error("STACK DEBUG",2)
-		end
 		local beingDragged = false
 		local beingResized = false
 		local listeners = {}
@@ -68,8 +62,6 @@ function window:new(sName,nWidth,nHeight)
 			if x >= w.x and x < w.x+w.width then
 				if y > w.y+17 and y < w.y+w.height+17 then
 					--TODO: Pass events to script
-					print(x.."-"..w.x.."="..(x-w.x))
-					print(y.."-"..w.y.."="..(y-w.y))
 					if w.callbacks.mousepressed then
 						w.callbacks.mousepressed(x-w.x,y-w.y-18,button)
 					end
@@ -78,7 +70,6 @@ function window:new(sName,nWidth,nHeight)
 			end
             if not w then return end
 			if x >= w.x and x < w.x+w.width and y >= w.y and y < w.y+w.height+18 then
-				print("Focusing...")
 				screen.focusOn(screenID)
 				capture[1] = true
 			end
@@ -315,9 +306,9 @@ function window:setResizable(rbl)
 end
 
 function window:setMinDimensions(w,h)
-	if w then print("HI") self.minw = w end
+	if w then self.minw = w end
 	print(self.minw)
-	if h then print("YO") self.minh = h end
+	if h then self.minh = h end
 end
 
 function window:getBackgroundColor()

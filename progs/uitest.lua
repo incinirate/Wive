@@ -25,6 +25,7 @@ do
     end)
     
     testwin.callbacks.exit = function()
+        buttonTest:exit()
         textTest:exit()
     end
 end

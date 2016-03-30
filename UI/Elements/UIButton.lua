@@ -38,6 +38,10 @@ function pointer:setCallback(func)
     self.callback = func
 end
 
+function pointer:exit()
+    self.super:unregisterHandles()
+end
+
 function pointer:setAttr(tatr)
     for k,v in pairs(tatr) do
         self.k = v

@@ -11,9 +11,9 @@ do
         textTest:draw()
 
     end
-    testwin.callbacks.mousepressed = function(x,y)
-        buttonTest:checkClicked(x,y)
-    end
+    --testwin.callbacks.mousepressed = function(x,y)
+    --    buttonTest:checkClicked(x,y)
+    --end
     
     buttonTest:setCallback(function()
         testwin.callbacks.draw = safeAppend(testwin.callbacks.draw,function()

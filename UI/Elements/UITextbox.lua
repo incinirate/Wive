@@ -8,7 +8,7 @@ function pointer.new(parent,x,y,w,ctx,cbg,btx)
     ctx = ctx or {0,0,0,255}
     cbg = cbg or {195,195,195,255}
     btx = btx or ""
-    local bu = {x=x,y=y,w=w,ctx=ctx,cbg=cbg,btx=btx,t="",tpos=0,poff=0,tick=true,focus=false,fon=love.graphics.getFont(),canvas=love.graphics.newCanvas(w,18),eventHandles={},parent=parent,callback=function()end}
+    local bu = {x=x,y=y,w=w,ctx=ctx,cbg=cbg,btx=btx,t="",tpos=0,poff=0,tick=true,focus=false,fon=love.graphics.getFont(),canvas=love.graphics.newCanvas(w,18),super=superclass,eventHandles={},parent=parent,callback=function()end}
     
     local timer = 0
 	local upe = events.registerListener("update",function(dt)
@@ -18,7 +18,7 @@ function pointer.new(parent,x,y,w,ctx,cbg,btx)
 			timer = 0
 		end
 	end,parent.UID)
-    table.insert(bu.eventHandles,{upe,"update"})
+    table.insert(bu.super.eventHandles,{upe,"update"})
 	local fon = love.graphics.getFont()
 	local tie = events.registerListener("textinput",function(char)
 		if screen.hasFocus(parent.UID) and bu.focus then
@@ -31,7 +31,7 @@ function pointer.new(parent,x,y,w,ctx,cbg,btx)
             end
 		end
 	end,parent.UID)
-    table.insert(bu.eventHandles,{tie,"textinput"})
+    table.insert(bu.super.eventHandles,{tie,"textinput"})
     local mousec = events.registerListener("mousepressed",function(x,y)
         if screen.hasFocus(parent.UID) then
             if x-parent.x >= bu.x and y- parent.y - 18 >= bu.y and y- parent.y - 18 < bu.y+18 and x-parent.x < bu.x+bu.w then
@@ -41,7 +41,7 @@ function pointer.new(parent,x,y,w,ctx,cbg,btx)
             end
         end
     end,parent.UID)
-    table.insert(bu.eventHandles,{mousec,"mousepressed"})
+    table.insert(bu.super.eventHandles,{mousec,"mousepressed"})
 	local keye = events.registerListener("keypressed",function(key)
 		if key == "backspace" then
 			if screen.hasFocus(parent.UID) and bu.focus then
@@ -88,7 +88,7 @@ function pointer.new(parent,x,y,w,ctx,cbg,btx)
             end
 		end
 	end,parent.UID)
-    table.insert(bu.eventHandles,{keye,"keypressed"})
+    table.insert(bu.super.eventHandles,{keye,"keypressed"})
     
     setmetatable(bu, {
 		__index=function(t,k) if rawget(pointer,k) then return rawget(pointer, k) end end,
@@ -98,9 +98,7 @@ function pointer.new(parent,x,y,w,ctx,cbg,btx)
 end
 
 function pointer:exit()
-    for k,v in ipairs(self.eventHandles) do
-        events.unregisterListener(v[2], v[1], self.parent.UID)
-    end
+    self.super:unregisterHandles()
 end
 
 function pointer:draw()

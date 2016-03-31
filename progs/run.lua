@@ -1,4 +1,4 @@
-local win = window:new("Run Program",nil,40)
+local win = window.new("Run Program",nil,40)
 do
 	win:setResizable(false)
 	local inputBox = UIElement.UITextbox.new(win,nil,20)

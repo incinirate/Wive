@@ -2,7 +2,7 @@ local gx = 45
 local gy = 45
 local gscale = 13
 
-local win = window:new("Game Of Life",gx*gscale,gy*gscale+16)
+local win = window.new("Game Of Life",gx*gscale,gy*gscale+16)
 do
 	--win:setMinDimensions(gx*gscale,gy*gscale+16)
 	win:setResizable(false)

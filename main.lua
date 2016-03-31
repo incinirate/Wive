@@ -1,6 +1,8 @@
 io.stdout:setvbuf("no")
 
 _G.debug = false
+
+
 --Setup Logger
 local logTagQueue = {}
 function setLogLevel(sLevel)
@@ -64,12 +66,6 @@ require 'gpuex'
 log("  ---==[ SYSTEM INITIALIZATION ]==--","SYSTEM")
 
 --Global Functions
-
-
---print(2^46+1)
-
---Main variables
-local placeholder = "Iamaplaceholder"
 
 local backgroundUID = getUID()
 

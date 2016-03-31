@@ -1,4 +1,4 @@
-local testwin = window:new("Memory Solver",360,180)
+local testwin = window.new("Memory Solver",360,180)
 do
     
     testwin:setBackgroundColor(200,200,200)

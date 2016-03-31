@@ -1,4 +1,4 @@
-local testwin = window:new("Debug Window")
+local testwin = window.new("Debug Window")
  
 
 

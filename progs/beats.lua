@@ -1,4 +1,4 @@
-local testwin = window:new("Beats MP3 Player")
+local testwin = window.new("Beats MP3 Player")
 testwin:setBackgroundColor(250,250,250)
 local winspeed = 300
 

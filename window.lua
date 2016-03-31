@@ -2,7 +2,9 @@
 
 _G.window = {}
 
-function window:new(sName,nWidth,nHeight)
+local recap = 0
+
+function window.new(sName,nWidth,nHeight)
 	nWidth,nHeight = nWidth or 320,nHeight or 180
 	local w = {callbacks={},visible=false,width=nWidth,height=nHeight,x=0,y=0,mino=false,maxo=false,cloo=false,resizeable=true,bg={0,0,0,255}}
 	local fon = love.graphics.getFont()
@@ -15,6 +17,12 @@ function window:new(sName,nWidth,nHeight)
 	local UID = getUID()
 --	print("NEWUID: "..UID)
 	do
+		--Do all window stuffs :P
+--		print("MAKING A WINDOW! :D")
+		recap = recap + 1
+		if recap == 100 then
+			error("STACK DEBUG",2)
+		end
 		local beingDragged = false
 		local beingResized = false
 		local listeners = {}
@@ -24,6 +32,7 @@ function window:new(sName,nWidth,nHeight)
 				print(w.x+w.width-2)
 				if y >= w.y and y < w.y+17 then
 					--DRAGTIME!!!
+					--log("Start drag")
 					beingDragged = true
 					capture[1] = true
 				end
@@ -31,6 +40,7 @@ function window:new(sName,nWidth,nHeight)
 					capture[1] = true
 					w.close()
 					return
+					--print(window.isVisible(w))
 			end
 			if w.resizeable then
 				local setc = false
@@ -57,6 +67,9 @@ function window:new(sName,nWidth,nHeight)
 
 			if x >= w.x and x < w.x+w.width then
 				if y > w.y+17 and y < w.y+w.height+17 then
+					--TODO: Pass events to script
+					print(x.."-"..w.x.."="..(x-w.x))
+					print(y.."-"..w.y.."="..(y-w.y))
 					if w.callbacks.mousepressed then
 						w.callbacks.mousepressed(x-w.x,y-w.y-18,button)
 					end
@@ -65,6 +78,7 @@ function window:new(sName,nWidth,nHeight)
 			end
             if not w then return end
 			if x >= w.x and x < w.x+w.width and y >= w.y and y < w.y+w.height+18 then
+				print("Focusing...")
 				screen.focusOn(screenID)
 				capture[1] = true
 			end
@@ -74,6 +88,7 @@ function window:new(sName,nWidth,nHeight)
 			if beingDragged then
 				w.x = w.x + dx
 				w.y = w.y + dy
+				--log("Moved "..dx..","..dy,"Window")
 				capture[1] = true
 				return
 			elseif beingResized then
@@ -115,6 +130,7 @@ function window:new(sName,nWidth,nHeight)
 					if w.callbacks.mousemoved then
 						w.callbacks.mousemoved(mx-w.x,my-w.y-18,dx,dy)
 					end
+                    --log("BRO "..tostring(capture)..tostring(cwut[1]),"DEBUGX")
 					capture[1] = true
 				end
 			end
@@ -157,6 +173,7 @@ function window:new(sName,nWidth,nHeight)
 						w.maxo = false
 						w.cloo = false
 					end
+                              --  log("BRO "..tostring(capture)..tostring(cwut[1]),"DEBUGX")
 					capture[1] = true
 				else
 					w.mino = false
@@ -205,14 +222,19 @@ function window:new(sName,nWidth,nHeight)
 	})
 
 	screenID = screen.addElement(w,UID)
+--	print("SCR ID: "..screenID)
 	w["screenID"] = screenID
 	
 	return w,screenID,UID
 end
 
 function window:draw()
+	--TODO
+	--love.graphics.setColor(230,230,230,255)
 	love.graphics.setColor(180,180,180,255)
+	--print(screen.getFocusList()[1][2].."=?="..tostring(self.UID))
 	if screen.getFocusList()[1][2] == self.UID then
+		--print("")
 		love.graphics.setColor(240,240,240,255)
 	end
 	love.graphics.rectangle("fill", self.x, self.y, self.width+2, 18)
@@ -270,6 +292,10 @@ end
 function window:setName(sName)
 	rawset(self, "name", sName)
 end
+
+--[[function window:getName()
+	return rawget(self, "name")
+end  Unnessacery overload ]]
 
 function window:getName()
 	return "{WINDOW}-"..(rawget(self,"name") or "UnknownPName")

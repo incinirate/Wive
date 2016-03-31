@@ -1,1 +1,1 @@
-"C:\Program Files\LOVE\love.exe" C:\Users\Bryan\Documents\TIGM
+"C:\Program Files\LOVE\love.exe" %~dp0

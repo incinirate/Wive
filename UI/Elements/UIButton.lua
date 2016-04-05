@@ -39,7 +39,7 @@ function pointer:setCallback(func)
 end
 
 function pointer:exit()
-    self.super:unregisterHandles()
+    self.superclass:unregisterHandles()
 end
 
 function pointer:setAttr(tatr)

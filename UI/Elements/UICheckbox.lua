@@ -30,8 +30,10 @@ end
 function pointer:draw()
   love.graphics.setColor(unpack(self.cbg))
   love.graphics.setLineWidth(1)
-  love.graphics.rectangle("line",self.x,self.y,self.x+self.w-1,self.y+self.h-1)
+  love.graphics.setLineStyle("rough")
+  love.graphics.rectangle("line",self.rx,self.ry,self.w,self.h)
   if self.checked then
-    
+    love.graphics.setColor(unpack(self.cfg))
+    love.graphics.rectangle("fill",self.rx + 1, self.ry + 2, self.w - 3, self.h - 3)
   end
 end
